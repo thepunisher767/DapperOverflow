@@ -1,8 +1,8 @@
 ﻿@model Question
 
-<form action="/QandA/Add" method="post">
+<form action="/QandA/Save" method="post">
     <fieldset>
-        <legend>Add Question</legend>
+        <legend>Edit Question</legend>
         <p>
             <label><b>Username</b></label><br />
             <input type="text"
@@ -22,6 +22,7 @@
                       cols="150">@Model.Detail</textarea>
         </p>
         <br><br>
+        <input type="hidden" name="_id" value="@Model.id" />
         <input type="submit" value="Submit">
     </fieldset>
 </form>

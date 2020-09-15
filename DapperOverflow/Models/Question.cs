@@ -48,11 +48,15 @@ namespace DapperOverflow.Models
             return question;
         }
 
-        public static void Update(long _id, string _title, string _detail)
+        public static Question Update(long _id, string _username, string _title, string _detail)
         {
             IDbConnection db = new SqlConnection("Server=.;Database=DapperOverflow;user id=dbuser;password=abc123");
-            Question question = new Question() { id = _id, Title = _title, Detail = _detail };
-            db.Update<Question>(question);
+            Question newquestion = Read(_id);
+            newquestion.Detail = _detail;
+            newquestion.Username = _username;
+            newquestion.Title = _title;
+            db.Update(newquestion);
+            return newquestion;
         }
 
         public static void Delete(long _id)

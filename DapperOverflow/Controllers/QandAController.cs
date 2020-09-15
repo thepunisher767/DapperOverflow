@@ -48,6 +48,11 @@ namespace DapperOverflow.Controllers
             Question question = Question.Read(_id);
             return View(question);
         }
+        public IActionResult Save(long _id, string username, string title, string detail)
+        {
+            Question question = Question.Update(_id, username, title, detail);
+            return RedirectToAction("Index");
+        }
         public IActionResult Delete(long _id)
         {
             Question.Delete(_id);
