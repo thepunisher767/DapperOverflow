@@ -25,6 +25,8 @@ namespace DapperOverflow.Controllers
         {
             return View();
         }
+
+
         [HttpPost]
         public IActionResult Add(string username, string title, string detail)
         {
@@ -33,40 +35,57 @@ namespace DapperOverflow.Controllers
             return RedirectToAction("Index");
         }
 
-        /*public IActionResult Search() 
+        [HttpPost]
+        public IActionResult AnsSave(long _id, string username, string detail)
         {
-            List<Question> list = Question.ReadAll();
-            return View(list);
-        }*/
+            Answer newanswer = Answer.Create(username, _id, detail);
+            return RedirectToAction("Index");
+        }
+
+
         public IActionResult Detail(long _id)
         {
             Question question = Question.Read(_id);
+            ViewBag.Answerlist = Answer.GetAnswers(_id);
             return View(question);
         }
+
+
         public IActionResult Edit(long _id)
         {
             Question question = Question.Read(_id);
             return View(question);
         }
+
+
         public IActionResult Save(long _id, string username, string title, string detail)
         {
             Question question = Question.Update(_id, username, title, detail);
             return RedirectToAction("Index");
         }
+
+
         public IActionResult Delete(long _id)
         {
             Question.Delete(_id);
             return RedirectToAction("Index");
         }
-        public IActionResult Answer(long _id)
+
+
+        public IActionResult AddAnswer(long _id)
         {
+            ViewBag.QuestionID = _id;
             return View();
         }
+
+
         public IActionResult Close(long _id, int status)
         {
             Question.Update(_id, status);
             return RedirectToAction("Index");
         }
+
+
         public IActionResult Search(string search)
         {
             List<Question> questionlist = Question.Search(search);

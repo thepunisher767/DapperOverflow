@@ -1,16 +1,27 @@
 ﻿@model Question
-
-<h1>@Model.Username</h1>
-<h6><i>@Model.Posted</i></h6>
-<h6>Author: @Model.Username</h6>
-<br /><br />
-<p>@Model.Detail</p>
-<br /><br /><br />
+<style>
+    p.groove {
+        border-style: groove;
+    }
+</style>
+<h1>@Model.Title</h1>
+<h6><i>@Model.Posted</i> by: @Model.Username</h6>
+<br />
+<p class="groove">@Model.Detail</p>
+<br />
 <button onclick="location.href='/QandA/Edit?_id=@Model.id'">EDIT</button>
 <button onclick="location.href='/QandA/Delete?_id=@Model.id'">DELETE</button>
 <br /><br />
-<button onclick="location.href='/QandA/Answer?_id=@Model.id'">Add an Answer</button>
+@if (ViewBag.Answerlist != null)
+{
+    <h4>Answers</h4>
+    foreach (Answer answer in ViewBag.Answerlist)
+    {
+        <p><i>@answer.Posted - by: @answer.Username</i></p>
+        <p class="groove">@answer.Detail</p>
+    }
+}
+<br />
+<button onclick="location.href='/QandA/AddAnswer?_id=@Model.id'">Add an Answer</button>
 <button onclick="location.href='/QandA/Close?_id=@Model.id&status=1'">Mark as Resolved</button>
-
-
 

@@ -26,9 +26,31 @@ namespace DapperOverflow.Models
             IDbConnection db = new SqlConnection("Server=.;Database=DapperOverflow;user id=dbuser;password=abc123");
             Answer newanswer = new Answer() { Username = _username, QuestionID = _questionid, Detail = _detail };
             newanswer.Posted = DateTime.Now;
+            newanswer.Upvotes = 0;
             long _id = db.Insert<Answer>(newanswer);
             newanswer.id = _id;
             return newanswer;
+        }
+
+        public static List<Answer> ReadAll()
+        {
+            IDbConnection db = new SqlConnection("Server=.;Database=DapperOverflow;user id=dbuser;password=abc123");
+            List<Answer> answerlist = db.GetAll<Answer>().ToList();
+            return answerlist;
+        }
+        public static Answer Read(long _id)
+        {
+            IDbConnection db = new SqlConnection("Server=.;Database=DapperOverflow;user id=dbuser;password=abc123");
+            Answer newanswer = db.Get<Answer>(_id);
+            return newanswer;
+        }
+
+        public static List<Answer> GetAnswers(long _id)
+        {
+            IDbConnection db = new SqlConnection("Server=.;Database=DapperOverflow;user id=dbuser;password=abc123");
+            List<Answer> answerlist = db.Query<Answer>($"SELECT Answer.* FROM Question JOIN Answer ON Question.id = Answer.QuestionID WHERE QuestionID={_id}").AsList();
+            answerlist = answerlist.OrderByDescending(o => o.Posted).ToList();
+            return answerlist;
         }
 
     }
