@@ -7,6 +7,7 @@
           <input type="text" name="search">
           <input type="submit" value="Search">
       </form>
+      <h6><a href="/QandA/Index">Clear Search</a></h6>
     <br />
     <a href="/QandA/Add"><b>ADD A QUESTION</b></a>
     <br />
@@ -25,9 +26,21 @@
         </tr>
         @foreach (Question question in Model)
         {
+            int status = question.Status;
+            string message = "";
+            @switch (status)
+            {
+                case 0:
+                    message = "OPEN";
+                    break;
+                case 1:
+                    message = "CLOSED";
+                    break;
+            }
+
             <tr>
                 <th>@question.Posted</th>
-                <th><a href="/QandA/Detail?_id=@question.id">@question.Title</a></th>
+                <th>@message - <a href="/QandA/Detail?_id=@question.id">@question.Title</a></th>
                 <th>@question.Username</th>
                 <th><a href="/QandA/Edit?_id=@question.id"><b>EDIT </b></a> / <a href="/QandA/Delete?_id=@question.id"><b>DELETE</b></a></th>
             </tr>

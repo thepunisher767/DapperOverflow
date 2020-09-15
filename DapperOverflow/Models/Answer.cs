@@ -21,5 +21,15 @@ namespace DapperOverflow.Models
         public int Upvotes { get; set; }
 
 
+        public static Answer Create(string _username, long _questionid, string _detail)
+        {
+            IDbConnection db = new SqlConnection("Server=.;Database=DapperOverflow;user id=dbuser;password=abc123");
+            Answer newanswer = new Answer() { Username = _username, QuestionID = _questionid, Detail = _detail };
+            newanswer.Posted = DateTime.Now;
+            long _id = db.Insert<Answer>(newanswer);
+            newanswer.id = _id;
+            return newanswer;
+        }
+
     }
 }

@@ -62,10 +62,16 @@ namespace DapperOverflow.Controllers
         {
             return View();
         }
+        public IActionResult Close(long _id, int status)
+        {
+            Question.Update(_id, status);
+            return RedirectToAction("Index");
+        }
         public IActionResult Search(string search)
         {
-            ViewBag.Searchresult = "Search Results";
             List<Question> questionlist = Question.Search(search);
+            int results = questionlist.Count();
+            ViewBag.Searchresult = $"Search Results for \"{search}\" - {results}";
             return View("Index", questionlist);
         }
     }

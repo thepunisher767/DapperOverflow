@@ -25,14 +25,14 @@ namespace DapperOverflow.Models
         public static Question Create(string _username, string _title, string _detail)
         {
             IDbConnection db = new SqlConnection("Server=.;Database=DapperOverflow;user id=dbuser;password=abc123");
-            Question question = new Question() { Username = _username, Title = _title, Detail = _detail };
-            question.Posted = DateTime.Now;
-            question.Status = 0;
-            question.Category = "test";
-            question.Tags = "test";
-            long _id = db.Insert<Question>(question);
-            question.id = _id;
-            return question;
+            Question newquestion = new Question() { Username = _username, Title = _title, Detail = _detail };
+            newquestion.Posted = DateTime.Now;
+            newquestion.Status = 0;
+            newquestion.Category = "test";
+            newquestion.Tags = "test";
+            long _id = db.Insert<Question>(newquestion);
+            newquestion.id = _id;
+            return newquestion;
         }
 
         public static List<Question> ReadAll()
@@ -55,6 +55,14 @@ namespace DapperOverflow.Models
             newquestion.Detail = _detail;
             newquestion.Username = _username;
             newquestion.Title = _title;
+            db.Update(newquestion);
+            return newquestion;
+        }
+        public static Question Update(long _id, int status)
+        {
+            IDbConnection db = new SqlConnection("Server=.;Database=DapperOverflow;user id=dbuser;password=abc123");
+            Question newquestion = Read(_id);
+            newquestion.Status = status;
             db.Update(newquestion);
             return newquestion;
         }
