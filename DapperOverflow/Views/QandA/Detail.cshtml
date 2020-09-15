@@ -12,7 +12,7 @@
 <button onclick="location.href='/QandA/Edit?_id=@Model.id'">EDIT</button>
 <button onclick="location.href='/QandA/Delete?_id=@Model.id'">DELETE</button>
 <br /><br />
-@if (ViewBag.Answerlist != null)
+@if (ViewBag.Answerlist.Count > 0)
 {
     <h4>Answers</h4>
     foreach (Answer answer in ViewBag.Answerlist)
