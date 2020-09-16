@@ -48,7 +48,7 @@ namespace DapperOverflow.Models
             return question;
         }
 
-        public static Question Update(long _id, string _username, string _title, string _detail)
+        public static Question Update(long _id, string _username, string _title, string _detail) //Normal Edit
         {
             IDbConnection db = new SqlConnection("Server=.;Database=DapperOverflow;user id=dbuser;password=abc123");
             Question newquestion = Read(_id);
@@ -58,7 +58,7 @@ namespace DapperOverflow.Models
             db.Update(newquestion);
             return newquestion;
         }
-        public static Question Update(long _id, int status)
+        public static Question Update(long _id, int status) //For Upvotes
         {
             IDbConnection db = new SqlConnection("Server=.;Database=DapperOverflow;user id=dbuser;password=abc123");
             Question newquestion = Read(_id);

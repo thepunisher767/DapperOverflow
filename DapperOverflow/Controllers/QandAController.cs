@@ -9,6 +9,8 @@ namespace DapperOverflow.Controllers
 {
     public class QandAController : Controller
     {
+
+        //GENERAL ####################################################################################
         [HttpGet]
         public IActionResult Index() //Displays ALL question
         {
@@ -21,28 +23,6 @@ namespace DapperOverflow.Controllers
             return View(list);
         }
 
-        public IActionResult Add()
-        {
-            return View();
-        }
-
-
-        [HttpPost]
-        public IActionResult Add(string username, string title, string detail)
-        {
-            Question newquestion = Question.Create(username, title, detail);
-            //newquestion.Add();
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        public IActionResult AnsSave(long _id, string username, string detail)
-        {
-            Answer newanswer = Answer.Create(username, _id, detail);
-            return RedirectToAction("Index");
-        }
-
-
         public IActionResult Detail(long _id)
         {
             Question question = Question.Read(_id);
@@ -50,13 +30,37 @@ namespace DapperOverflow.Controllers
             return View(question);
         }
 
+        //QUESTIONS #####################################################################################################
+        public IActionResult Add() //General "blank" ADD view
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Add(string username, string title, string detail) //Create new question
+        {
+            Question newquestion = Question.Create(username, title, detail);
+            return RedirectToAction("Index");
+        }
 
-        public IActionResult Edit(long _id)
+        public IActionResult Close(long _id, int status) //Closes Question
+        {
+            Question.Update(_id, status);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Search(string search) //Searches based on input
+        {
+            List<Question> questionlist = Question.Search(search);
+            int results = questionlist.Count();
+            ViewBag.Searchresult = $"Search Results for \"{search}\" - {results}";
+            return View("Index", questionlist);
+        }
+
+        public IActionResult Edit(long _id) //Shows pre-populated add view
         {
             Question question = Question.Read(_id);
             return View(question);
         }
-
 
         public IActionResult Save(long _id, string username, string title, string detail)
         {
@@ -64,34 +68,46 @@ namespace DapperOverflow.Controllers
             return RedirectToAction("Index");
         }
 
-
         public IActionResult Delete(long _id)
         {
             Question.Delete(_id);
             return RedirectToAction("Index");
         }
 
+        //ANSWERS ##########################################################################################
+        public IActionResult GetAnswer(long _id) //Gets specific answer based on ID
+        {
+            Answer newanswer = Answer.Read(_id);
+            return View("AddAnswer", newanswer);
+        }
 
-        public IActionResult AddAnswer(long _id)
+        public IActionResult AddAnswer(long _id) //With QuestionID
         {
             ViewBag.QuestionID = _id;
             return View();
         }
 
-
-        public IActionResult Close(long _id, int status)
+        [HttpPost]
+        public IActionResult EditAnswer(Answer answer) //FIX MEEEEEE
         {
-            Question.Update(_id, status);
+            return View("AddAnswer", answer);
+        }
+
+        [HttpPost]
+        public IActionResult AnsSave(long _id, long _questionid, string username, string detail)
+        {
+            Answer newanswer;
+            if (_id == 0)
+            {
+                newanswer = Answer.Create(username, _questionid, detail);
+            }
+            else
+            {
+                newanswer = Answer.Update(_id, username, detail);
+            }
             return RedirectToAction("Index");
         }
 
-
-        public IActionResult Search(string search)
-        {
-            List<Question> questionlist = Question.Search(search);
-            int results = questionlist.Count();
-            ViewBag.Searchresult = $"Search Results for \"{search}\" - {results}";
-            return View("Index", questionlist);
-        }
+        
     }
 }

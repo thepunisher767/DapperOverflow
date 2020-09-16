@@ -45,7 +45,7 @@ namespace DapperOverflow.Models
             return newanswer;
         }
 
-        public static List<Answer> GetAnswers(long _id)
+        public static List<Answer> GetAnswers(long _id) //Gets answers for questionID, then sort
         {
             IDbConnection db = new SqlConnection("Server=.;Database=DapperOverflow;user id=dbuser;password=abc123");
             List<Answer> answerlist = db.Query<Answer>($"SELECT Answer.* FROM Question JOIN Answer ON Question.id = Answer.QuestionID WHERE QuestionID={_id}").AsList();
@@ -53,5 +53,14 @@ namespace DapperOverflow.Models
             return answerlist;
         }
 
+        public static Answer Update(long _id, string _username, string _detail) //Normal Edit
+        {
+            IDbConnection db = new SqlConnection("Server=.;Database=DapperOverflow;user id=dbuser;password=abc123");
+            Answer newanswer = Read(_id);
+            newanswer.Detail = _detail;
+            newanswer.Username = _username;
+            db.Update(newanswer);
+            return newanswer;
+        }
     }
 }

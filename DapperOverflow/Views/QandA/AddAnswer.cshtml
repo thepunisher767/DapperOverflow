@@ -1,20 +1,26 @@
-﻿<form action="/QandA/AnsSave" method="post">
+﻿@model Answer
+    <a href="/QandA/Index">Back to Questions</a>
+
+<form action="/QandA/AnsSave" method="post">
     <fieldset>
         <legend>Add Answer</legend>
         <p>
             <label><b>Username</b></label><br />
             <input type="text"
-                   name="username" />
+                   name="username"
+                   value="@Model?.Username" />
         </p>
         <p>
             <label><b>Description</b></label><br />
             <textarea name="detail"
                       rows="20"
-                      cols="150">
-                </textarea>
+                      cols="150">@Model?.Detail</textarea>
         </p>
         <br><br>
         <input type="submit" value="Submit">
-        <input type="hidden" name="_id" value="@ViewBag.QuestionID" />
+        @if (ViewBag.QuestionID != 0)
+        {<input type="hidden" name="_questionid" value="@ViewBag.QuestionID" />}
+        else {<input type="hidden" name="_questionid" value="@Model.QuestionID" /> }
+        <input type="hidden" name="_id" value="@Model?.id" />
     </fieldset>
 </form>
