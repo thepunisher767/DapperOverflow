@@ -38,8 +38,17 @@ namespace DapperOverflow.Controllers
         [HttpPost]
         public IActionResult Add(string username, string title, string detail) //Create new question
         {
-            Question newquestion = Question.Create(username, title, detail);
-            return RedirectToAction("Index");
+            if (username == null || title == null || detail == null)
+            {
+                ViewBag.Message = "FIELDS CANNOT BE BLANK";
+                return View();
+            }
+            else
+            {
+                Question newquestion = Question.Create(username, title, detail);
+                return RedirectToAction("Index");
+            }
+            
         }
 
         public IActionResult Close(long _id, int status) //Closes Question
