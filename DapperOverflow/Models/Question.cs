@@ -70,6 +70,11 @@ namespace DapperOverflow.Models
         public static void Delete(long _id)
         {
             IDbConnection db = new SqlConnection("Server=.;Database=DapperOverflow;user id=dbuser;password=abc123");
+            List<Answer> answerlist = Answer.GetAnswers(_id);
+            foreach (Answer answer in answerlist)
+            {
+                db.Delete(answer);
+            }
             db.Delete(new Question() {id = _id});
         }
         public static List<Question> Search(string search)
