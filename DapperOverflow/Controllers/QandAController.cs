@@ -73,7 +73,13 @@ namespace DapperOverflow.Controllers
 
         public IActionResult Save(long _id, string username, string title, string detail)
         {
-            Question question = Question.Update(_id, username, title, detail);
+            if (username == null || title == null || detail == null)
+            {
+                Question question = Question.Read(_id);
+                ViewBag.Message = "FIELDS CANNOT BE BLANK";
+                return View("Edit", question);
+            }
+            Question.Update(_id, username, title, detail);
             return RedirectToAction("Index");
         }
 
@@ -97,7 +103,7 @@ namespace DapperOverflow.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditAnswer(Answer answer) //FIX MEEEEEE
+        public IActionResult EditAnswer(Answer answer)
         {
             return View("AddAnswer", answer);
         }
@@ -105,16 +111,25 @@ namespace DapperOverflow.Controllers
         [HttpPost]
         public IActionResult AnsSave(long _id, long _questionid, string username, string detail)
         {
-            Answer newanswer;
-            if (_id == 0)
+            if (username == null || detail == null)
             {
-                newanswer = Answer.Create(username, _questionid, detail);
+                ViewBag.Message = "FIELDS CANNOT BE BLANK";
+                ViewBag.QuestionID = _questionid;
+                return View("AddAnswer");
             }
             else
             {
-                newanswer = Answer.Update(_id, username, detail);
+                Answer newanswer;
+                if (_id == 0)
+                {
+                    newanswer = Answer.Create(username, _questionid, detail);
+                }
+                else
+                {
+                    newanswer = Answer.Update(_id, username, detail);
+                }
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
         }
 
         
