@@ -62,5 +62,11 @@ namespace DapperOverflow.Models
             db.Update(newanswer);
             return newanswer;
         }
+
+        public static void Delete(long _id)
+        {
+            IDbConnection db = new SqlConnection("Server=.;Database=DapperOverflow;user id=dbuser;password=abc123");
+            db.Delete(new Answer() { id = _id });
+        }
     }
 }

@@ -1,21 +1,22 @@
 ﻿@model Question
-    <h6 style="color:red">@ViewBag.Message</h6>
-    <a href="/QandA/Index">Back to Questions</a>
+@ViewBag.activeUser
+<h6 style="color:red">@ViewBag.Message</h6>
+<a href="/QandA/Index">Back to Questions</a>
 
 <form action="/QandA/Save" method="post">
     <fieldset>
         <legend>Edit Question</legend>
-        <p>
-            <label><b>Username</b></label><br />
-            <input type="text"
-                   name="username" 
-                   value="@Model.Username"/>
-        </p>
+        <!--<p>
+        <label><b>Username</b></label><br />
+        <input type="text"
+               name="username"
+               value="@Model.Username" />
+        </p>-->
         <p>
             <label><b>Title</b></label><br />
             <input type="text"
-                   name="title" 
-                   value="@Model.Title"/>
+                   name="title"
+                   value="@Model.Title" />
         </p>
         <p>
             <label><b>Description</b></label><br />
@@ -26,5 +27,6 @@
         <br><br>
         <input type="hidden" name="_id" value="@Model.id" />
         <input type="submit" value="Submit">
+        <input type="hidden" name="username" value="@ViewBag.activeUser" />
     </fieldset>
 </form>

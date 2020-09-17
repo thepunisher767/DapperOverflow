@@ -1,15 +1,16 @@
 ﻿@model Answer
-    <a href="/QandA/Index">Back to Questions</a>
-    <h6 style="color:red">@ViewBag.Message</h6>
+@ViewBag.activeUser
+<a href="/QandA/Index">Back to Questions</a>
+<h6 style="color:red">@ViewBag.Message</h6>
 <form action="/QandA/AnsSave" method="post">
     <fieldset>
         <legend>Add Answer</legend>
-        <p>
+        <!--<p>
             <label><b>Username</b></label><br />
             <input type="text"
                    name="username"
                    value="@Model?.Username" />
-        </p>
+        </p>-->
         <p>
             <label><b>Description</b></label><br />
             <textarea name="detail"
@@ -20,7 +21,9 @@
         <input type="submit" value="Submit">
         @if (ViewBag.QuestionID != 0)
         {<input type="hidden" name="_questionid" value="@ViewBag.QuestionID" />}
-        else {<input type="hidden" name="_questionid" value="@Model.QuestionID" /> }
+        else
+        {<input type="hidden" name="_questionid" value="@Model.QuestionID" />}
         <input type="hidden" name="_id" value="@Model?.id" />
+        <input type="hidden" name="username" value="@ViewBag.activeUser" />
     </fieldset>
 </form>

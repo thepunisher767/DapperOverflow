@@ -1,5 +1,5 @@
 ﻿@model List<Question>
-
+@ViewBag.activeUser
 <h1>Questions</h1>
 <br /><br />
       <form method="post" action="/QandA/Search">
@@ -42,7 +42,16 @@
                 <th>@question.Posted</th>
                 <th>@message - <a href="/QandA/Detail?_id=@question.id">@question.Title</a></th>
                 <th>@question.Username</th>
-                <th><a href="/QandA/Edit?_id=@question.id"><b>EDIT </b></a> / <a href="/QandA/Delete?_id=@question.id"><b>DELETE</b></a></th>
+                <th>
+                    @if (question.Username == ViewBag.activeUser)
+                    {
+                        <a href="/QandA/Edit?_id=@question.id"><b>EDIT </b></a> <b>/</b> <a href="/QandA/Delete?_id=@question.id"><b> DELETE </b></a>
+                    }
+                    else
+                    {
+                        <b>EDIT</b><b>/</b><b>DELETE</b>
+                    }
+                </th>              
             </tr>
         }
     </table>
