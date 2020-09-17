@@ -1,5 +1,5 @@
 ﻿@model Answer
-@ViewBag.activeUser
+    <p>Logged in as: @ViewBag.activeUser</p>
 <a href="/QandA/Index">Back to Questions</a>
 <h6 style="color:red">@ViewBag.Message</h6>
 <form action="/QandA/AnsSave" method="post">
