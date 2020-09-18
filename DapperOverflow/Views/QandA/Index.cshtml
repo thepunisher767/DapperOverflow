@@ -43,7 +43,7 @@
                 <th>@message - <a href="/QandA/Detail?_id=@question.id">@question.Title</a></th>
                 <th>@question.Username</th>
                 <th>
-                    @if (question.Username == ViewBag.activeUser)
+                    @if (question.Status != 1 && question.Username == ViewBag.activeUser)
                     {
                         <a href="/QandA/Edit?_id=@question.id"><b>EDIT </b></a> <b>/</b> <a href="/QandA/Delete?_id=@question.id"><b> DELETE </b></a>
                     }
