@@ -156,6 +156,14 @@ namespace DapperOverflow.Controllers
             }
         }
 
+        public IActionResult UpVote(long _id, long _questionid)
+        {
+            ViewBag.activeUser = HttpContext.Request.Cookies["activeUser"];
+            Answer newanswer;
+            newanswer = Answer.UpVote(_id);
+            return Redirect($"Detail?_id={_questionid}");
+        }
+
         public IActionResult DelAnswer(long _id)
         {
             ViewBag.activeUser = HttpContext.Request.Cookies["activeUser"];

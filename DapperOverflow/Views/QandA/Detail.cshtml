@@ -36,14 +36,18 @@
     <h4>Answers</h4>
     foreach (Answer answer in ViewBag.Answerlist)
     {
-<p>
-    <i>@answer.Posted - by: @answer.Username </i>
-    @if (answer.Username == ViewBag.activeUser && @Model.Status != 1)
-    {
-        <a href="/QandA/GetAnswer?_id=@answer.id"><b>EDIT</b></a>
-        <a href="/QandA/DelAnswer?_id=@answer.id"><b>DELETE</b></a>
-    }
-</p>
+        <p>
+            @if (Model.Status == 0)
+            {
+                <a href="/QandA/UpVote?_id=@answer.id&_questionid=@Model.id">UPVOTE</a>
+            }
+            <i>@answer.Upvotes Upvotes| @answer.Posted - by: @answer.Username </i>
+            @if (answer.Username == ViewBag.activeUser && @Model.Status != 1)
+            {
+                <a href="/QandA/GetAnswer?_id=@answer.id"><b>EDIT</b></a>
+                <a href="/QandA/DelAnswer?_id=@answer.id"><b>DELETE</b></a>
+            }
+        </p>
         <p class="groove">@answer.Detail</p>
     }
 }
@@ -56,3 +60,9 @@
         <button onclick="location.href='/QandA/Close?_id=@Model.id&status=1'">Mark as Resolved</button>
     }
 }
+else if (Model.Status == 1)
+{
+    if (Model.Username == ViewBag.activeUser)
+    {
+<button onclick="location.href='/QandA/Close?_id=@Model.id&status=0'">Reopen Question</button>}
+            }
